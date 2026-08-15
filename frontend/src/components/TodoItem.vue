@@ -22,9 +22,9 @@ const editError = ref<string | null>(null)
 const confirmingDelete = ref(false)
 
 const priorityStyles: Record<TodoPriority, string> = {
-  low: 'bg-slate-100 text-slate-600',
-  medium: 'bg-amber-100 text-amber-700',
-  high: 'bg-red-100 text-red-700',
+  low: 'bg-white/10 text-slate-300',
+  medium: 'bg-amber-400/20 text-amber-300',
+  high: 'bg-red-400/20 text-red-300',
 }
 
 const priorityLabels: Record<TodoPriority, string> = {
@@ -72,49 +72,49 @@ function confirmDelete() {
 
 <template>
   <li
-    class="flex flex-col gap-3 rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200 transition-shadow hover:shadow-md sm:flex-row sm:items-start"
+    class="flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 transition-colors hover:bg-white/[0.08] sm:flex-row sm:items-start"
   >
     <input
       type="checkbox"
       :checked="todo.is_done"
       :disabled="updating"
       aria-label="Marcar como completada"
-      class="mt-1 h-5 w-5 shrink-0 cursor-pointer rounded border-slate-300 text-indigo-600 focus:ring-2 focus:ring-indigo-500"
+      class="mt-1 h-5 w-5 shrink-0 cursor-pointer rounded border-white/20 bg-white/5 text-brand focus:ring-2 focus:ring-brand focus:ring-offset-0"
       @change="emit('toggle', todo)"
     />
 
     <div v-if="!isEditing" class="min-w-0 flex-1">
       <p
-        class="break-words text-sm font-medium text-slate-900"
+        class="break-words text-base font-medium text-white"
         :class="{ 'text-slate-400 line-through': todo.is_done }"
       >
         {{ todo.title }}
       </p>
-      <div class="mt-1.5 flex flex-wrap items-center gap-2 text-xs text-slate-500">
+      <div class="mt-2 flex flex-wrap items-center gap-2.5 text-sm text-slate-400">
         <span
           v-if="todo.priority"
-          class="rounded-full px-2 py-0.5 font-medium"
+          class="rounded-full px-2.5 py-0.5 text-xs font-medium"
           :class="priorityStyles[todo.priority]"
         >
           {{ priorityLabels[todo.priority] }}
         </span>
-        <span v-if="todo.due_date">Vence: {{ todo.due_date }}</span>
+        <span v-if="todo.due_date" class="font-mono">Vence: {{ todo.due_date }}</span>
       </div>
     </div>
 
-    <div v-else class="flex min-w-0 flex-1 flex-col gap-2">
+    <div v-else class="flex min-w-0 flex-1 flex-col gap-2.5">
       <input
         v-model="editTitle"
         type="text"
         maxlength="200"
-        class="w-full rounded-lg border-0 bg-slate-50 px-3 py-2 text-sm ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        class="w-full rounded-xl border border-white/10 bg-white/5 px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-brand"
         @keydown.enter="saveEdit"
         @keydown.esc="cancelEdit"
       />
-      <div class="flex flex-wrap gap-2">
+      <div class="flex flex-wrap gap-2.5">
         <select
           v-model="editPriority"
-          class="rounded-lg border-0 bg-slate-50 px-2 py-1.5 text-xs ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand [color-scheme:dark]"
         >
           <option value="">Prioridad</option>
           <option value="low">Baja</option>
@@ -124,24 +124,24 @@ function confirmDelete() {
         <input
           v-model="editDueDate"
           type="date"
-          class="rounded-lg border-0 bg-slate-50 px-2 py-1.5 text-xs ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand [color-scheme:dark]"
         />
       </div>
-      <p v-if="editError" class="text-xs text-red-600">{{ editError }}</p>
+      <p v-if="editError" role="alert" class="text-xs text-red-300">{{ editError }}</p>
     </div>
 
-    <div class="flex shrink-0 gap-1.5 sm:mt-0">
+    <div class="flex shrink-0 gap-2 sm:mt-0">
       <template v-if="isEditing">
         <button
           type="button"
-          class="rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+          class="rounded-xl bg-brand px-3.5 py-2 text-sm font-medium text-white hover:bg-brand-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-link"
           @click="saveEdit"
         >
           Guardar
         </button>
         <button
           type="button"
-          class="rounded-lg px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+          class="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-300 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
           @click="cancelEdit"
         >
           Cancelar
@@ -150,14 +150,14 @@ function confirmDelete() {
       <template v-else>
         <button
           type="button"
-          class="rounded-lg px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400"
+          class="rounded-lg px-3.5 py-2 text-sm font-medium text-slate-300 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
           @click="startEdit"
         >
           Editar
         </button>
         <button
           type="button"
-          class="rounded-lg px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+          class="rounded-lg px-3.5 py-2 text-sm font-medium text-red-300 hover:bg-red-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
           @click="requestDelete"
         >
           Eliminar

@@ -2,13 +2,18 @@
 
 ## Estado actual
 
-El código está completo y compila/tipa/lintea sin errores usando un
-`.env.local` de relleno. **No existe todavía un proyecto Supabase real
-conectado** porque este entorno no tiene sesión de `supabase` CLI ni acceso a
-la consola de Supabase. Esta es la única intervención manual necesaria para
-que la app funcione de extremo a extremo.
+**Conectado y verificado.** El proyecto Supabase real está creado, el esquema
+de [`supabase/schema.sql`](../../supabase/schema.sql) está aplicado, y
+`frontend/.env.local` apunta a él con la URL y la `publishable key` (la
+variante moderna de la anon key) del proyecto. Se verificó con una petición
+REST directa (`GET /rest/v1/todos`) que la tabla existe y que RLS bloquea
+correctamente el acceso sin sesión (devuelve `[]` en vez de error o datos).
+El modo mock (`VITE_MOCK_AUTH`) está desactivado.
 
-## Qué tienes que hacer tú (una sola vez)
+Los pasos de abajo quedan documentados como referencia por si se necesita
+recrear el proyecto o conectarlo en otra máquina/entorno.
+
+## Pasos para (re)conectar un proyecto Supabase
 
 ### 1. Crear el proyecto en Supabase
 
@@ -31,8 +36,12 @@ que la app funcione de extremo a extremo.
 1. Ve a **Project Settings → API**.
 2. Copia:
    - **Project URL** → variable `VITE_SUPABASE_URL`
-   - **anon / public key** → variable `VITE_SUPABASE_ANON_KEY`
-3. **No copies la `service_role` key a ningún archivo de este proyecto.**
+   - **anon / public key** (proyectos nuevos la llaman `publishable key`,
+     empieza por `sb_publishable_...`; en proyectos antiguos es un JWT largo)
+     → variable `VITE_SUPABASE_ANON_KEY`
+3. **No copies la `secret key` / `service_role key`** (en proyectos nuevos
+   empieza por `sb_secret_...`) **a ningún archivo de este proyecto ni la
+   compartas fuera del dashboard de Supabase.**
 
 ### 4. Configurar las variables de entorno
 

@@ -25,8 +25,8 @@ const emptyMessages: Record<TodoFilter, string> = {
 
 <template>
   <div>
-    <div v-if="props.loading" class="flex flex-col items-center gap-3 py-16 text-slate-500">
-      <svg class="h-6 w-6 animate-spin text-indigo-500" viewBox="0 0 24 24" fill="none">
+    <div v-if="props.loading" class="flex flex-col items-center gap-3 py-16 text-slate-400">
+      <svg class="h-6 w-6 animate-spin text-brand-link" viewBox="0 0 24 24" fill="none">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
         <path
           class="opacity-75"
@@ -39,12 +39,13 @@ const emptyMessages: Record<TodoFilter, string> = {
 
     <div
       v-else-if="props.error"
-      class="flex flex-col items-center gap-3 rounded-xl bg-red-50 py-12 text-center ring-1 ring-inset ring-red-100"
+      role="alert"
+      class="flex flex-col items-center gap-3 rounded-xl border border-red-400/20 bg-red-500/10 py-12 text-center"
     >
-      <p class="text-sm font-medium text-red-700">{{ props.error }}</p>
+      <p class="text-sm font-medium text-red-300">{{ props.error }}</p>
       <button
         type="button"
-        class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+        class="rounded-lg bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
         @click="emit('retry')"
       >
         Reintentar
@@ -53,10 +54,10 @@ const emptyMessages: Record<TodoFilter, string> = {
 
     <div
       v-else-if="props.todos.length === 0"
-      class="flex flex-col items-center gap-2 rounded-xl border border-dashed border-slate-300 py-16 text-center"
+      class="flex flex-col items-center gap-2 rounded-xl border border-dashed border-white/15 py-16 text-center"
     >
       <p class="text-3xl">📝</p>
-      <p class="text-sm text-slate-500">{{ emptyMessages[props.filter] }}</p>
+      <p class="text-sm text-slate-400">{{ emptyMessages[props.filter] }}</p>
     </div>
 
     <ul v-else class="flex flex-col gap-3">

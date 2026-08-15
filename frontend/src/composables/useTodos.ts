@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { supabase } from '../lib/supabase'
 import { useAuth } from './useAuth'
+import { MOCK_AUTH_ENABLED, mockTodosStore } from '../lib/mock'
 import type { Todo, TodoInsert, TodoUpdate, TodoFilter } from '../types/todo'
 
 const todos = ref<Todo[]>([])
@@ -29,6 +30,14 @@ export function useTodos() {
     if (!user.value) return
     loading.value = true
     error.value = null
+
+    // See src/lib/mock.ts — preview-only bypass, no network calls.
+    if (MOCK_AUTH_ENABLED) {
+      todos.value = [...mockTodosStore].sort((a, b) => b.created_at.localeCompare(a.created_at))
+      loading.value = false
+      return
+    }
+
     const { data, error: fetchError } = await supabase
       .from('todos')
       .select('*')
@@ -47,6 +56,23 @@ export function useTodos() {
   async function addTodo(input: TodoInsert) {
     if (!user.value) return { success: false as const, error: 'No autenticado' }
     error.value = null
+
+    if (MOCK_AUTH_ENABLED) {
+      const now = new Date().toISOString()
+      const newTodo: Todo = {
+        id: crypto.randomUUID(),
+        user_id: user.value.id,
+        title: input.title.trim(),
+        is_done: false,
+        priority: input.priority ?? null,
+        due_date: input.due_date ?? null,
+        created_at: now,
+        updated_at: now,
+      }
+      mockTodosStore.unshift(newTodo)
+      todos.value = [newTodo, ...todos.value]
+      return { success: true as const, data: newTodo }
+    }
 
     const { data, error: insertError } = await supabase
       .from('todos')
@@ -70,6 +96,20 @@ export function useTodos() {
 
   async function updateTodo(id: string, changes: TodoUpdate) {
     error.value = null
+
+    if (MOCK_AUTH_ENABLED) {
+      const idx = mockTodosStore.findIndex((t) => t.id === id)
+      if (idx === -1) {
+        error.value = 'No se pudo actualizar la tarea. Inténtalo de nuevo.'
+        return { success: false as const, error: error.value }
+      }
+      mockTodosStore[idx] = { ...mockTodosStore[idx], ...changes, updated_at: new Date().toISOString() }
+      const updated = mockTodosStore[idx]
+      const localIdx = todos.value.findIndex((t) => t.id === id)
+      if (localIdx !== -1) todos.value[localIdx] = updated
+      return { success: true as const, data: updated }
+    }
+
     const { data, error: updateError } = await supabase
       .from('todos')
       .update(changes)
@@ -96,6 +136,12 @@ export function useTodos() {
     const previous = todos.value
     // Optimistic removal, rolled back on failure.
     todos.value = todos.value.filter((t) => t.id !== id)
+
+    if (MOCK_AUTH_ENABLED) {
+      const idx = mockTodosStore.findIndex((t) => t.id === id)
+      if (idx !== -1) mockTodosStore.splice(idx, 1)
+      return { success: true as const }
+    }
 
     const { error: deleteError } = await supabase.from('todos').delete().eq('id', id)
 

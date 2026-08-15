@@ -1,5 +1,19 @@
 @import 'tailwindcss';
 
+/* Brand tokens, adapted from a reactbits.dev-style design system (colors,
+   type, radius) — palette/typography only, not their logo or name. */
+@theme {
+  --color-brand: #a855f7; /* primary / accent */
+  --color-brand-hover: #9333ea; /* hover shade for solid brand buttons */
+  --color-brand-link: #c084fc; /* lighter accent: links, dark-surface focus rings */
+  --color-brand-secondary: #301d44; /* secondary surface tint */
+  --color-brand-btn-secondary: #232027; /* secondary button fill */
+  --color-brand-bg: #120f17; /* app background base */
+
+  --font-sans: 'Geist', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
 :root {
   color-scheme: light;
 }
@@ -12,15 +26,12 @@ body,
 
 body {
   margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
+  font-family: var(--font-sans);
   background-color: #f8fafc;
   color: #0f172a;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 * {

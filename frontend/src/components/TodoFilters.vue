@@ -18,25 +18,25 @@ const options: { value: TodoFilter; label: string }[] = [
 </script>
 
 <template>
-  <div class="flex gap-2" role="tablist" aria-label="Filtrar tareas">
+  <div class="flex flex-wrap gap-2.5" role="tablist" aria-label="Filtrar tareas">
     <button
       v-for="opt in options"
       :key="opt.value"
       type="button"
       role="tab"
       :aria-selected="modelValue === opt.value"
-      class="rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+      class="rounded-full px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-link"
       :class="
         modelValue === opt.value
-          ? 'bg-indigo-600 text-white'
-          : 'bg-white text-slate-600 ring-1 ring-inset ring-slate-200 hover:bg-slate-50'
+          ? 'bg-brand text-white'
+          : 'bg-white/10 text-slate-300 hover:bg-white/15 hover:text-white'
       "
       @click="emit('update:modelValue', opt.value)"
     >
       {{ opt.label }}
       <span
-        class="ml-1 text-xs"
-        :class="modelValue === opt.value ? 'text-indigo-100' : 'text-slate-400'"
+        class="ml-1 font-mono text-xs"
+        :class="modelValue === opt.value ? 'text-white/80' : 'text-slate-400'"
         >{{ counts[opt.value] }}</span
       >
     </button>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter, RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
+import AuthLayout from '../components/AuthLayout.vue'
 
 const email = ref('')
 const password = ref('')
@@ -46,9 +47,9 @@ async function handleSubmit() {
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-    <div class="w-full max-w-sm rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
-      <h1 class="text-xl font-semibold text-slate-900">Crea tu cuenta</h1>
+  <AuthLayout mode="register">
+    <div class="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
+      <h2 class="text-xl font-semibold text-slate-900">Crea tu cuenta</h2>
       <p class="mt-1 text-sm text-slate-500">Organiza tus tareas en segundos.</p>
 
       <form v-if="!successMessage" class="mt-6 flex flex-col gap-4" @submit.prevent="handleSubmit">
@@ -59,7 +60,7 @@ async function handleSubmit() {
             v-model="email"
             type="email"
             autocomplete="email"
-            class="w-full rounded-lg border-0 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full rounded-lg border-0 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-brand"
           />
         </div>
 
@@ -70,7 +71,7 @@ async function handleSubmit() {
             v-model="password"
             type="password"
             autocomplete="new-password"
-            class="w-full rounded-lg border-0 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full rounded-lg border-0 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-brand"
           />
         </div>
 
@@ -83,31 +84,27 @@ async function handleSubmit() {
             v-model="confirmPassword"
             type="password"
             autocomplete="new-password"
-            class="w-full rounded-lg border-0 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="w-full rounded-lg border-0 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-brand"
           />
         </div>
 
-        <p v-if="formError" class="text-sm text-red-600">{{ formError }}</p>
+        <p v-if="formError" role="alert" class="text-sm text-red-600">{{ formError }}</p>
 
         <button
           type="submit"
-          class="mt-1 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:cursor-not-allowed disabled:opacity-60"
+          class="mt-1 rounded-xl bg-brand px-4 py-2.5 text-sm font-medium text-white shadow-[0_10px_25px_rgba(168,85,247,0.25)] hover:bg-brand-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-link disabled:cursor-not-allowed disabled:opacity-60"
           :disabled="submitting"
         >
           {{ submitting ? 'Creando cuenta…' : 'Crear cuenta' }}
         </button>
       </form>
 
-      <div v-else class="mt-6 rounded-lg bg-emerald-50 p-4 text-sm text-emerald-700 ring-1 ring-inset ring-emerald-100">
+      <div
+        v-else
+        class="mt-6 rounded-lg bg-emerald-50 p-4 text-sm text-emerald-700 ring-1 ring-inset ring-emerald-100"
+      >
         {{ successMessage }}
       </div>
-
-      <p class="mt-6 text-center text-sm text-slate-500">
-        ¿Ya tienes cuenta?
-        <RouterLink to="/login" class="font-medium text-indigo-600 hover:text-indigo-700"
-          >Inicia sesión</RouterLink
-        >
-      </p>
     </div>
-  </div>
+  </AuthLayout>
 </template>

@@ -41,11 +41,8 @@ function handleSubmit() {
 </script>
 
 <template>
-  <form
-    class="rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-200 sm:p-5"
-    @submit.prevent="handleSubmit"
-  >
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-start">
+  <form @submit.prevent="handleSubmit">
+    <div class="flex flex-col gap-3 lg:flex-row lg:items-start">
       <div class="flex-1">
         <label for="todo-title" class="sr-only">Título de la tarea</label>
         <input
@@ -54,16 +51,16 @@ function handleSubmit() {
           type="text"
           placeholder="¿Qué necesitas hacer?"
           maxlength="200"
-          class="w-full rounded-lg border-0 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 ring-1 ring-inset ring-slate-200 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 text-base text-white ring-0 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand"
           :disabled="props.submitting"
         />
       </div>
 
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2.5">
         <select
           v-model="priority"
           aria-label="Prioridad"
-          class="rounded-lg border-0 bg-slate-50 px-2.5 py-2.5 text-sm text-slate-700 ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="rounded-xl border border-white/10 bg-white/5 px-3.5 py-3.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand [color-scheme:dark]"
           :disabled="props.submitting"
         >
           <option value="">Prioridad</option>
@@ -76,13 +73,13 @@ function handleSubmit() {
           v-model="dueDate"
           type="date"
           aria-label="Fecha límite"
-          class="rounded-lg border-0 bg-slate-50 px-2.5 py-2.5 text-sm text-slate-700 ring-1 ring-inset ring-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="rounded-xl border border-white/10 bg-white/5 px-3.5 py-3.5 text-sm text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand [color-scheme:dark]"
           :disabled="props.submitting"
         />
 
         <button
           type="submit"
-          class="shrink-0 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:cursor-not-allowed disabled:opacity-60"
+          class="shrink-0 rounded-xl bg-brand px-6 py-3.5 text-sm font-medium text-white shadow-[0_10px_25px_rgba(0,0,0,0.25)] hover:bg-brand-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-link disabled:cursor-not-allowed disabled:opacity-60"
           :disabled="props.submitting"
         >
           {{ props.submitting ? 'Añadiendo…' : 'Añadir' }}
@@ -90,7 +87,7 @@ function handleSubmit() {
       </div>
     </div>
 
-    <p v-if="validationError" class="mt-2 text-sm text-red-600">
+    <p v-if="validationError" role="alert" class="mt-2 text-sm text-red-300">
       {{ validationError }}
     </p>
   </form>
