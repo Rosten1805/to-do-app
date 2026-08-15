@@ -53,13 +53,19 @@ subtareas/etiquetas, notificaciones y tests automatizados no están en el
 código y no se documentan como si existieran en ninguna otra parte de
 `docs/p4/`.
 
-## Bloqueos que requirieron intervención manual
+## Bloqueos que requirieron intervención manual (resueltos)
 
-1. **Creación del proyecto Supabase real** — este entorno no tiene sesión de
-   `supabase` CLI ni acceso al dashboard; ver
-   [`integration_plan.md`](./integration_plan.md) para los pasos exactos.
-2. **Deploy en Vercel** — este entorno no tiene sesión de `vercel` CLI; ver
-   [`deploy_vercel.md`](./deploy_vercel.md).
-3. **Push a GitHub** — no autorizado automáticamente por instrucción
-   explícita del encargo ("NO hagas push automáticamente si no tienes
-   autorización explícita").
+1. **Creación del proyecto Supabase real** — este entorno no tenía sesión de
+   `supabase` CLI ni acceso al dashboard; el usuario creó el proyecto,
+   ejecutó `supabase/schema.sql` y proporcionó la URL + publishable key. Ver
+   [`integration_plan.md`](./integration_plan.md).
+2. **Deploy** — se intentó primero en Vercel; la cuenta del usuario devolvió
+   un bloqueo de la API (`402`, "fair use limits exceeded"), ajeno al
+   proyecto. Se desplegó en **Netlify** en su lugar, con un Personal Access
+   Token proporcionado por el usuario. Ver
+   [`deploy_netlify.md`](./deploy_netlify.md).
+3. **Push a GitHub** — no se hizo automáticamente al principio, siguiendo la
+   instrucción explícita del encargo ("NO hagas push automáticamente si no
+   tienes autorización explícita"). Se hizo más tarde cuando el usuario lo
+   pidió explícitamente al preparar el despliegue, creando el repositorio
+   https://github.com/Rosten1805/to-do-app.

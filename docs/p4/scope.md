@@ -14,7 +14,7 @@ autenticación de usuarios y aislamiento de datos por usuario (RLS).
 | Estilos          | Tailwind CSS v4                                |
 | Backend          | Supabase (PostgreSQL + Auth + REST autogenerada) |
 | Seguridad        | Supabase Auth + Row Level Security (RLS)       |
-| Hosting          | Vercel                                         |
+| Hosting          | Netlify                                        |
 | Control de versiones | Git / GitHub                                |
 
 ## Funcionalidades incluidas (MVP)

@@ -58,7 +58,7 @@ por lo que quedan bloqueados por defecto.
   descritas arriba.
 - La **service role key** (que evita RLS) **no se usa en ningún punto del
   frontend** y no debe copiarse jamás en `.env` de este proyecto ni en el
-  dashboard de Vercel del sitio público.
+  dashboard de Netlify del sitio público.
 - Todas las queries de tareas pasan por `supabase-js` desde el navegador
   (no hay backend intermedio en este MVP), por lo que RLS es la única y
   verdadera barrera de aislamiento entre usuarios.
