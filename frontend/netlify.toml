@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# SPA fallback so vue-router (history mode) resolves any path to index.html
+# instead of Netlify returning a 404 on refresh/direct URL access.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
